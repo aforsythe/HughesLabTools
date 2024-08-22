@@ -27,22 +27,23 @@ The `VmoToolsGui` class is responsible for creating and displaying the graphical
 Users can interact with this GUI to configure their processing tasks. However, the `VmoToolsGui` class also allows for programmatic configuration. Instead of manually inputting all options through the GUI, you can set options directly in code and pass them to the `DeviceManager`, allowing for automation and scripting.
 
 ### **ImageTypeChangerGui Class**
-The `ImageTypeChangerGui` class handles interactions related to changing the type of image being processed. This includes confirming the image type and switching an image types as needed. 
+The `ImageTypeChangerGui` class handles interactions related to changing the type of image being processed. This includes confirming the image type and switching between image types as needed.
 
-## Programmatic Option Setting
+## Option Setting Methods
+
+### Programmatic Option Setting
 
 While the GUI is the primary method for configuring options, options can also be set programmatically and passed directly to the `DeviceManager` for execution. This is useful for automating processes or integrating the tool into larger workflows.
 
-### Example of Programmatic Option Setting
-
-Here's an example of how you can bypass the GUI and set options programmatically in a script:
+Here’s an example of how you can bypass the GUI and set options programmatically in a script:
 
 ```python
-from DeviceManager import DeviceManager
-from VmoToolsGui import VmoToolsGui
+import os
+from HughesLabTools.DeviceManager import DeviceManager
+from HughesLabTools import gui
 
-# Create an instance of DeviceManager
-device_manager = DeviceManager()
+# Create a DeviceManager instance
+device_manager = DeviceManager(verbose=True)
 
 # Set options programmatically
 options = {
@@ -56,11 +57,32 @@ options = {
 # Configure DeviceManager with these options
 device_manager.configure(options)
 
-# Process the images based on the configured options
-device_manager.process_images()
+# Now you can proceed with further processing
+device_manager.run_selected_processes()
 ```
 
 In this example, the options dictionary is populated directly in the code and passed to the `DeviceManager`. This bypasses the need to manually configure the options through the GUI, enabling automation and scripting.
+
+### GUI Option Setting
+
+Alternatively, you can use the GUI to set the options interactively and then pass them to the `DeviceManager` for processing. Here’s an example of how to do this:
+
+```python
+import os
+from HughesLabTools.DeviceManager import DeviceManager
+from HughesLabTools import gui
+
+# Create a DeviceManager instance
+device_manager = DeviceManager(verbose=True)
+
+# Run the GUI and configure options
+device_manager.configure_with_gui()
+
+# Now you can proceed with further processing if processes are selected
+device_manager.run_selected_processes()
+```
+
+In this example, the `VmoToolsGui` class is used to display the GUI, collect options from the user, and configure the `DeviceManager`. Once the options are set, the images can be processed as per the user’s selections.
 
 ### How It Works
 
@@ -70,8 +92,8 @@ In this example, the options dictionary is populated directly in the code and pa
 2. **Programmatic Configuration**:
    - Instead of manually selecting options through the GUI, options can be set directly in the script. The `DeviceManager` class can then be configured with these options, allowing for automated workflows.
 
-3. **Passing Options to `DeviceManager`**:
-   - Whether options are collected through the GUI or set programmatically, they are passed to the `DeviceManager` for execution. The `DeviceManager` then processes the images according to the selected options.
+3. **Running Processes**:
+   - Once options are configured (either via the GUI or programmatically), the `DeviceManager` can execute the selected processes using the `run_selected_processes()` method.
 
 ## Extending the Project
 
