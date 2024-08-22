@@ -1,0 +1,122 @@
+# Hughes Lab Tools for VMT Device Image Processing
+
+## Overview
+
+The Hughes Lab Tools are designed for processing images captured from VMT (Vascular and Tumor) devices using ImageJ/Fiji. This project leverages ImageJ’s powerful image processing capabilities and integrates custom tools for medical image analysis, providing a tailored interface for operations such as thresholding, segmentation, and measurement.
+
+## Project Structure and Key Classes
+
+### **Device Class**
+The `Device` class serves as the base class for managing general device-related operations. This class provides a foundation that other specialized classes can extend for more specific functionality.
+
+### **DeviceManager Class**
+The `DeviceManager` class orchestrates the image processing workflow. It handles user input from the GUI, manages options, and executes the appropriate operations on the images. This class acts as the central controller, coordinating between the GUI, `DeviceImage` objects, and user preferences.
+
+### **DeviceImage Class**
+The `DeviceImage` class is a subclass of ImageJ's `ImagePlus` class. By extending `ImagePlus`, it inherits all of ImageJ’s core image handling capabilities while adding device-specific processing features, such as saving and loading medical images.
+
+### **TumorImage Class**
+The `TumorImage` class extends `DeviceImage` and provides specialized methods for tumor image analysis, such as segmentation, measuring grey levels, and calculating circularity.
+
+### **VesselImage Class**
+The `VesselImage` class extends `DeviceImage` and focuses on vascular image analysis, offering methods for thresholding images, converting them to masks, and measuring vessel diameters.
+
+### **VmoToolsGui Class**
+The `VmoToolsGui` class is responsible for creating and displaying the graphical user interface (GUI) that collects user input. It allows users to select various options for image processing, such as the number of image types, color settings, and processing functions (e.g., segmentation or thresholding). These options are then stored in an `options` dictionary.
+
+Users can interact with this GUI to configure their processing tasks. However, the `VmoToolsGui` class also allows for programmatic configuration. Instead of manually inputting all options through the GUI, you can set options directly in code and pass them to the `DeviceManager`, allowing for automation and scripting.
+
+### **ImageTypeChangerGui Class**
+The `ImageTypeChangerGui` class handles interactions related to changing the type of image being processed. This includes confirming the image type and switching an image types as needed. 
+
+## Programmatic Option Setting
+
+While the GUI is the primary method for configuring options, options can also be set programmatically and passed directly to the `DeviceManager` for execution. This is useful for automating processes or integrating the tool into larger workflows.
+
+### Example of Programmatic Option Setting
+
+Here's an example of how you can bypass the GUI and set options programmatically in a script:
+
+```python
+from DeviceManager import DeviceManager
+from VmoToolsGui import VmoToolsGui
+
+# Create an instance of DeviceManager
+device_manager = DeviceManager()
+
+# Set options programmatically
+options = {
+    'numTypes': 2,
+    'typeNames': ['Tumor', 'Vessel'],
+    'typeColors': ['Red', 'Green'],
+    'segment': True,
+    'threshold': False
+}
+
+# Configure DeviceManager with these options
+device_manager.configure(options)
+
+# Process the images based on the configured options
+device_manager.process_images()
+```
+
+In this example, the options dictionary is populated directly in the code and passed to the `DeviceManager`. This bypasses the need to manually configure the options through the GUI, enabling automation and scripting.
+
+### How It Works
+
+1. **Collecting Options via GUI**:
+   - The `VmoToolsGui` class displays the GUI and collects options such as the number of image types, their names, and their colors. Users can select the image processing functions to perform (e.g., segmentation or thresholding).
+
+2. **Programmatic Configuration**:
+   - Instead of manually selecting options through the GUI, options can be set directly in the script. The `DeviceManager` class can then be configured with these options, allowing for automated workflows.
+
+3. **Passing Options to `DeviceManager`**:
+   - Whether options are collected through the GUI or set programmatically, they are passed to the `DeviceManager` for execution. The `DeviceManager` then processes the images according to the selected options.
+
+## Extending the Project
+
+### **Adding New Image Types**
+1. **Create a New Image Class**:
+   - Define a new class that extends `DeviceImage`. Implement specific methods for processing the new image type.
+   - Example:
+   ```python
+   from DeviceImage import DeviceImage
+
+   class NewImageType(DeviceImage):
+       def process_specific_feature(self):
+           # Implement processing logic here
+           pass
+   ```
+
+2. **Integrate with GUI**:
+   - Update `VmoToolsGui` to include options for the new image type, allowing users to select it from the interface.
+
+3. **Update DeviceManager**:
+   - Extend `DeviceManager` to handle the new image type and its associated operations.
+
+### **Adding New Image Processing Functions**
+1. **Define New Functions**:
+   - Add new methods in the relevant image class (e.g., `TumorImage` or `VesselImage`).
+   - Ensure the new methods are integrated into the image processing workflow.
+
+2. **Update GUI**:
+   - Modify `VmoToolsGui` to include new options for these additional functions.
+
+3. **Testing**:
+   - Test the new functionality across various images to ensure correctness.
+
+## Leveraging ImageJ/Fiji
+
+This project integrates tightly with ImageJ/Fiji, utilizing the `ImagePlus` class and all its associated capabilities. Since the `DeviceImage` class subclasses `ImagePlus`, you can apply any ImageJ functionality directly within the project. This allows for extending the toolset by incorporating ImageJ plugins and further customizing the image processing pipeline.
+
+## Issues, Feature Requests, and Todos
+
+If you encounter any problems, have feature requests, or want to track todos, please use the GitHub Issues page for this project. This helps us keep track of everything and ensures that contributions and fixes are handled efficiently.
+
+## Contribution
+
+Fork the repository, implement your features or fixes, and submit a pull request. Ensure that your code is well-documented and thoroughly tested.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the LICENSE file for details.
