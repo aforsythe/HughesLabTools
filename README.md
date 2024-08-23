@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Hughes Lab Tools are designed for processing images captured from VMT (Vascular and Tumor) devices using ImageJ/Fiji. This project leverages ImageJ’s powerful image processing capabilities and integrates custom tools for medical image analysis, providing a tailored interface for operations such as thresholding, segmentation, and measurement.
+The Hughes Lab Tools are designed for processing images captured from VMT (Vascular and Tumor) devices using ImageJ/Fiji. This project leverages ImageJ’s powerful image processing capabilities and integrates custom tools for VMT image analysis, providing a tailored interface for operations such as thresholding, segmentation, and measurement.
 
 ## Project Structure and Key Classes
 
@@ -13,13 +13,13 @@ The `Device` class serves as the base class for managing general device-related 
 The `DeviceManager` class orchestrates the image processing workflow. It handles user input from the GUI, manages options, and executes the appropriate operations on the images. This class acts as the central controller, coordinating between the GUI, `DeviceImage` objects, and user preferences.
 
 ### **DeviceImage Class**
-The `DeviceImage` class is a subclass of ImageJ's `ImagePlus` class. By extending `ImagePlus`, it inherits all of ImageJ’s core image handling capabilities while adding device-specific processing features, such as saving and loading medical images.
+The `DeviceImage` class is a subclass of ImageJ's `ImagePlus` class. By extending `ImagePlus`, it inherits all of ImageJ’s core image handling capabilities while adding device-specific processing features, such as saving and loading VMT images.
 
 ### **TumorImage Class**
-The `TumorImage` class extends `DeviceImage` and provides specialized methods for tumor image analysis, such as segmentation, measuring grey levels, and calculating circularity.
+The `TumorImage` class extends `DeviceImage` and provides specialized methods for tumor VMT image analysis, such as segmentation, measuring grey levels, and calculating circularity.
 
 ### **VesselImage Class**
-The `VesselImage` class extends `DeviceImage` and focuses on vascular image analysis, offering methods for thresholding images, converting them to masks, and measuring vessel diameters.
+The `VesselImage` class extends `DeviceImage` and focuses on vascular VMT image analysis, offering methods for thresholding images, converting them to masks, and measuring vessel diameters.
 
 ### **VmoToolsGui Class**
 The `VmoToolsGui` class is responsible for creating and displaying the graphical user interface (GUI) that collects user input. It allows users to select various options for image processing, such as the number of image types, color settings, and processing functions (e.g., segmentation or thresholding). These options are then stored in an `options` dictionary.
